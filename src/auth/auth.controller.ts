@@ -1,9 +1,9 @@
 import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
-import { Auth } from 'src/common/decorators/auth.decorator';
+import { Auth } from './decorators/auth.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -16,7 +16,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @Auth(Role.USER)
+  @Auth(Role.ADMIN)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

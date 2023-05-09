@@ -1,8 +1,8 @@
 import { SetMetadata, UseGuards, applyDecorators } from '@nestjs/common';
 import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
-import { RoleGuard } from '../guards/role.guard';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RoleGuard } from '../../common/guards/role.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 export function Auth(...roles: Role[]) {
   return applyDecorators(
