@@ -10,6 +10,8 @@ import {
 import { UserService } from './user.service';
 import { User, Prisma } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @ApiTags('user')
 @Controller({ path: 'users' })
@@ -27,14 +29,14 @@ export class UserController {
   }
 
   @Post()
-  async createUser(@Body() data: Prisma.UserCreateInput): Promise<User> {
+  async createUser(@Body() data: CreateUserDto): Promise<User> {
     return await this.userService.createUser(data);
   }
 
   @Patch(':id')
   async updateUser(
     @Param('id') id: string,
-    @Body() data: Prisma.UserUpdateInput,
+    @Body() data: UpdateUserDto,
   ): Promise<User> {
     return this.userService.updateUser({
       where: { id: Number(id) },
