@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { PrismaClientExceptionFilter } from './prisma-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { VersioningType } from '@nestjs/common';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,8 @@ async function bootstrap() {
     defaultVersion: '1',
   });
   const { httpAdapter } = app.get(HttpAdapterHost);
+
+  app.use(helmet());
 
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
