@@ -1,8 +1,9 @@
 import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
+import { Role } from '@prisma/client';
+import { Auth } from 'src/common/decorators/auth.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -15,7 +16,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Auth(Role.USER)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
