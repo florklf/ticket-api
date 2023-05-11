@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -11,8 +12,13 @@ import { SentryModule } from './sentry/sentry.module';
 import * as Sentry from '@sentry/node';
 import '@sentry/tracing';
 
+const ENV = process.env.NODE_ENV;
+
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: ENV === 'development' ? '.env.development' : '.env',
+    }),
     UserModule,
     EventModule,
     AuthModule,
