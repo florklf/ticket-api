@@ -13,6 +13,7 @@ WORKDIR /app
 COPY --from=development /app/node_modules ./node_modules
 COPY --from=development /app/package*.json ./
 COPY --from=development /app/dist ./dist
+COPY --from=development /app/prisma ./prisma
 RUN npm cache clean --force
 EXPOSE 3000
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:migrate:prod"]
