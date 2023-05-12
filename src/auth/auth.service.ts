@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { compareSync } from 'bcrypt';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -10,7 +11,15 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
+  /**
+   * Validate user
+   *
+   * @param {string} username
+   * @param {string} password
+   * @return {Promise<User>}
+   * @memberof AuthService
+   */
+  async validateUser(username: string, password: string): Promise<User> {
     const user = await this.usersService.user({ email: username });
     if (compareSync(password, user?.password)) {
       return user;
@@ -18,10 +27,16 @@ export class AuthService {
     return null;
   }
 
+  /**
+   * Login user
+   *
+   * @param {Express.User}
+   * @return {Promise<string>}
+   * @memberof AuthService
+   */
   async login(user: any) {
+    Logger.log(user, JSON.stringify(user));
     const payload = { email: user.email, id: user.id, role: user.role };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    return await this.jwtService.signAsync(payload);
   }
 }

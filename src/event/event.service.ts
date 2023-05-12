@@ -6,6 +6,13 @@ import { Event, Prisma } from '@prisma/client';
 export class EventService {
   constructor(private prisma: PrismaService) {}
 
+  /**
+   * Get one event by id
+   *
+   * @param {Prisma.EventWhereUniqueInput} eventWhereUniqueInput
+   * @return {(Promise<Event | null>)}
+   * @memberof EventService
+   */
   async event(
     eventWhereUniqueInput: Prisma.EventWhereUniqueInput,
   ): Promise<Event | null> {
@@ -14,6 +21,19 @@ export class EventService {
     });
   }
 
+  /**
+   * Get all events
+   *
+   * @param {{
+   *     skip?: number;
+   *     take?: number;
+   *     cursor?: Prisma.UserWhereUniqueInput;
+   *     where?: Prisma.UserWhereInput;
+   *     orderBy?: Prisma.UserOrderByWithRelationInput;
+   *   }} params
+   * @return {Promise<Event[]>}
+   * @memberof EventService
+   */
   async events(params: {
     skip?: number;
     take?: number;
@@ -31,12 +51,29 @@ export class EventService {
     });
   }
 
+  /**
+   * Create a new event
+   *
+   * @param {Prisma.EventCreateInput} data
+   * @return {Promise<Event>}
+   * @memberof EventService
+   */
   async createEvent(data: Prisma.EventCreateInput): Promise<Event> {
     return this.prisma.event.create({
       data,
     });
   }
 
+  /**
+   * Update an event
+   *
+   * @param {{
+   *     where: Prisma.EventWhereUniqueInput;
+   *     data: Prisma.EventUpdateInput;
+   *   }} params
+   * @return {Promise<Event>}
+   * @memberof EventService
+   */
   async updateEvent(params: {
     where: Prisma.EventWhereUniqueInput;
     data: Prisma.EventUpdateInput;
@@ -48,6 +85,13 @@ export class EventService {
     });
   }
 
+  /**
+   * Delete an event
+   *
+   * @param {Prisma.EventWhereUniqueInput} where
+   * @return {Promise<Event>}
+   * @memberof EventService
+   */
   async deleteEvent(where: Prisma.EventWhereUniqueInput): Promise<Event> {
     return this.prisma.event.delete({
       where,

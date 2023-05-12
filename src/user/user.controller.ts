@@ -18,21 +18,49 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  /**
+   * Get user by id
+   *
+   * @param {string} id
+   * @return {Promise<User>}
+   * @memberof UserController
+   */
   @Get(':id')
   async getUser(@Param('id') id: string): Promise<User> {
     return await this.userService.user({ id: Number(id) });
   }
 
+  /**
+   * Get all users
+   *
+   * @return {Promise<User[]>}
+   * @memberof UserController
+   */
   @Get()
   async findAll(): Promise<User[]> {
     return await this.userService.users({});
   }
 
+  /**
+   * Create user
+   *
+   * @param {CreateUserDto} data
+   * @return {Promise<User>}
+   * @memberof UserController
+   */
   @Post()
   async createUser(@Body() data: CreateUserDto): Promise<User> {
     return await this.userService.createUser(data);
   }
 
+  /**
+   * Update user
+   *
+   * @param {string} id
+   * @param {UpdateUserDto} data
+   * @return {Promise<User>}
+   * @memberof UserController
+   */
   @Patch(':id')
   async updateUser(
     @Param('id') id: string,
@@ -44,6 +72,13 @@ export class UserController {
     });
   }
 
+  /**
+   * Delete user
+   *
+   * @param {Prisma.UserWhereUniqueInput} data
+   * @return {Promise<User>}
+   * @memberof UserController
+   */
   @Delete(':id')
   async removeUser(data: Prisma.UserWhereUniqueInput): Promise<User> {
     return await this.userService.deleteUser(data);

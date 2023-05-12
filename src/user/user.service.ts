@@ -7,6 +7,13 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  /**
+   * Get one user
+   *
+   * @param {Prisma.UserWhereUniqueInput} userWhereUniqueInput
+   * @return {Promise<User>}
+   * @memberof UserService
+   */
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
@@ -15,6 +22,19 @@ export class UserService {
     });
   }
 
+  /**
+   * Get all users
+   *
+   * @param {{
+   *     skip?: number;
+   *     take?: number;
+   *     cursor?: Prisma.UserWhereUniqueInput;
+   *     where?: Prisma.UserWhereInput;
+   *     orderBy?: Prisma.UserOrderByWithRelationInput;
+   *   }} params
+   * @return {Promise<User>}
+   * @memberof UserService
+   */
   async users(params: {
     skip?: number;
     take?: number;
@@ -32,6 +52,13 @@ export class UserService {
     });
   }
 
+  /**
+   * Create a user
+   *
+   * @param {Prisma.UserCreateInput} data
+   * @return {Promise<User>}
+   * @memberof UserService
+   */
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
     data.password = await bcrypt.hash(data.password, 10);
     return this.prisma.user.create({
@@ -39,6 +66,16 @@ export class UserService {
     });
   }
 
+  /**
+   * Update a user
+   *
+   * @param {{
+   *     where: Prisma.UserWhereUniqueInput;
+   *     data: Prisma.UserUpdateInput;
+   *   }} params
+   * @return {Promise<User>}
+   * @memberof UserService
+   */
   async updateUser(params: {
     where: Prisma.UserWhereUniqueInput;
     data: Prisma.UserUpdateInput;
@@ -53,6 +90,13 @@ export class UserService {
     });
   }
 
+  /**
+   * Delete a user
+   *
+   * @param {Prisma.UserWhereUniqueInput} where
+   * @return {Promise<User>}
+   * @memberof UserService
+   */
   async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
     return this.prisma.user.delete({
       where,
